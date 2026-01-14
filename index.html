@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Martabak PadaMoro - Katalog & Pesan</title>
+    <!-- Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Warna tema diubah menjadi oranye/cokelat martabak */
+            --primary-color: #d35400; 
+            --primary-dark: #a04000;
+            --secondary-color: #e67e22;
+            --background-light: #fef9f7;
+            --text-dark: #2c3e50;
+            --text-gray: #7f8c8d;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* --- Header & Navigasi --- */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-bar {
+            flex: 1;
+            margin: 0 2rem;
+            position: relative;
+            max-width: 500px;
+            display: none; 
+        }
+        
+        body:not(.viewing-special) .search-bar {
+            display: block;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 2rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-bar input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .cart-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+
+        .cart-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--secondary-color);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- Layout Utama --- */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        /* --- Sidebar Filter --- */
+        .sidebar {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            height: fit-content;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 0.5rem;
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .category-btn {
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background: none;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            color: var(--text-gray);
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-btn:hover {
+            background-color: #fff5e6;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .category-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* --- Grid Produk --- */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+            display: none; 
+        }
+        
+        .products-grid.active {
+            display: grid;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #f1f5f9;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: #f39c12;
+        }
+
+        .product-image-wrapper {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background-color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 1rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--secondary-color);
+            margin-bottom: 0.25rem;
+            font-weight: 700;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-top: auto;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* --- Grid Promosi / Berita (Style Lebar) --- */
+        .news-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            display: none;
+        }
+
+        .news-grid.active {
+            display: flex;
+        }
+
+        .news-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        @media(min-width: 768px) {
+            .news-card {
+                flex-direction: row;
+                height: 250px;
+            }
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        @media(min-width: 768px) {
+            .news-image {
+                width: 40%;
+                height: 100%;
+            }
+        }
+
+        .news-content {
+            padding: 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .news-date {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .news-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .news-desc {
+            color: var(--text-dark);
+            line-height: 1.6;
+            white-space: pre-wrap; 
+        }
+
+        /* --- Informasi Section --- */
+        .info-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            max-width: 800px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        .info-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .info-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .info-header h2 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .info-item i {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-top: 5px;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 250px;
+            background-color: #eee;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+            margin-top: 1rem;
+        }
+
+        .wa-link-btn {
+            display: inline-block;
+            background-color: #25D366; /* Warna WA */
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 5px;
+            transition: 0.3s;
+        }
+        
+        .wa-link-btn:hover {
+            background-color: #128C7E;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Cart Sidebar (Off-canvas) --- */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            max-width: 100%;
+            height: 100%;
+            background: var(--white);
+            z-index: 201;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-open .cart-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .cart-open .cart-sidebar {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .cart-header h2 {
+            font-size: 1.25rem;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .cart-item img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: var(--radius);
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+        
+        .cart-item-category {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+        }
+
+        .cart-item-price {
+            color: var(--secondary-color);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .qty-btn {
+            width: 24px;
+            height: 24px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .qty-btn:hover {
+            background: #f1f5f9;
+        }
+
+        .cart-item-remove {
+            margin-left: auto;
+            color: #ef4444;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        /* --- Embedded Cart Form --- */
+        .cart-form-section {
+            padding: 1.5rem;
+            background-color: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .cart-form-group {
+            margin-bottom: 0.8rem;
+        }
+
+        .cart-form-group input, .cart-form-group textarea, .cart-form-group select {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .cart-footer {
+            padding: 1.5rem;
+            background-color: white;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .checkout-btn:hover {
+            background-color: #d35400;
+        }
+
+        /* --- Toast Notification --- */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 300;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease forwards;
+            min-width: 250px;
+        }
+
+        .toast.success i { color: #2ecc71; }
+        .toast.error i { color: #ef4444; }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateY(10px); }
+        }
+
+        /* --- Responsiveness --- */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                margin-bottom: 2rem;
+            }
+
+            .category-list {
+                display: flex;
+                gap: 0.5rem;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+
+            .category-btn {
+                white-space: nowrap;
+                width: auto;
+                background-color: #f1f5f9;
+            }
+
+            .category-btn.active {
+                background-color: var(--primary-color);
+                color: white;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-gray);
+            grid-column: 1 / -1;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigasi -->
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo">
+                <i class="fas fa-utensils"></i> MARTABAK PADAMORO
+            </a>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Cari martabak manis/telur...">
+            </div>
+
+            <div class="nav-actions">
+                <button class="cart-btn" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Layout Utama -->
+    <div class="container">
+        <!-- Sidebar Kategori -->
+        <aside class="sidebar">
+            <h3>Menu</h3>
+            <ul class="category-list" id="categoryList">
+                <!-- Kategori akan di-render via JS -->
+            </ul>
+        </aside>
+
+        <!-- Area Utama (Isi Produk, Berita, atau Informasi) -->
+        <main>
+            <!-- Grid Produk (Martabak) -->
+            <div class="products-grid active" id="productsGrid">
+                <!-- Produk akan di-render via JS -->
+            </div>
+
+            <!-- Grid Promosi (Berita) -->
+            <div class="news-grid" id="newsGrid">
+                <!-- Berita akan di-render via JS -->
+            </div>
+
+            <!-- Bagian Informasi -->
+            <div class="info-section" id="infoView">
+                <div class="info-header">
+                    <h2><i class="fas fa-info-circle"></i> Informasi Toko</h2>
+                    <p>Kunjungi kami atau hubungi kami untuk pemesanan</p>
+                </div>
+                <div class="info-content">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Alamat</h4>
+                            <p>Kampung Hijrah Residence (KHR) L15 Cisayong Kab Tasikmalaya<br>Jawa Barat</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Jam Operasional</h4>
+                            <p>Senin - Kamis: 16.00 - 21.00 WIB<br>Jumat - Sabtu: 16.00 - 21.00 WIB<br>Minggu: 16.00 - 22.00 WIB</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fab fa-whatsapp"></i>
+                        <div>
+                            <h4>Kontak WhatsApp</h4>
+                            <p>
+                                <a href="https://wa.me/6282118708534" target="_blank" class="wa-link-btn">
+                                    <i class="fas fa-phone"></i> Hubungi 0821-1870-8534
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <a href="https://wa.me/6282118708534" target="_blank" class="checkout-btn" style="text-decoration: none; display: inline-block; width: auto; padding-left: 2rem; padding-right: 2rem;">
+                            <i class="fab fa-whatsapp"></i> Chat Admin Sekarang
+                        </a>
+                    </div>
+
+                    <!-- Placeholder Peta -->
+                    <div class="map-placeholder">
+                        <i class="fas fa-map"></i> &nbsp; Peta Lokasi (Google Maps Embed)
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Keranjang Belanja (Off-canvas) -->
+    <div id="cartWrapper">
+        <div class="cart-overlay" onclick="toggleCart()"></div>
+        <div class="cart-sidebar">
+            <div class="cart-header">
+                <h2>Keranjang Pesanan</h2>
+                <button class="close-cart" onclick="toggleCart()">&times;</button>
+            </div>
+            
+            <div class="cart-items" id="cartItems">
+                <!-- Item keranjang di-render di sini -->
+            </div>
+
+            <!-- Form Pesanan Langsung di Dalam Keranjang -->
+            <div class="cart-form-section" id="cartFormSection" style="display:none;">
+                <div style="margin-bottom: 10px; font-weight: bold; font-size: 0.9rem;">Detail Pemesan:</div>
+                <div class="cart-form-group">
+                    <input type="text" id="nameCart" placeholder="Nama Pemesan" required>
+                </div>
+                <div class="cart-form-group">
+                    <textarea id="addressCart" rows="2" placeholder="Alamat Pengiriman" required></textarea>
+                </div>
+                <div class="cart-form-group">
+                    <select id="paymentCart">
+                        <option value="Transfer Bank">Transfer Bank (BRI)</option>
+                        <option value="E-Wallet">Dana</option>
+                        <option value="DO">Pesanan di Antar (DO)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cartTotal">Rp 0</span>
+                </div>
+                <button class="checkout-btn" onclick="processCheckout()">Pesan via WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // ==================================================================================
+        // --- BAGIAN 1: PENGATURAN MANUAL PROMOSI (3 ITEM) ---
+        // ==================================================================================
+        const promosiData = [
+            {
+                id: 'news1',
+                title: "PROMO HARI INI ",
+                date: "Promo Hari Ini",
+                image: "info.jpg", 
+                content: "Dapatkan Potongan harga setiap pembelian Martabak dengan kelipatan lebih dari Rp 100000. Berlaku Hari ini!"
+            },
+            {
+                id: 'news2',
+                title: "INFORMASI MENU HARI INI YANG TIDAK ADA",
+                date: "Info Menu",
+                image: "info menu.jpg",
+                content: "Martabak Telur Ayam dan sapi (kosong)"
+            },
+            {
+                id: 'news3',
+                title: "ANTAR GRATIS KHUSUS WILAYAH PAGENDINGAN",
+                date: "Info Pengiriman",
+                image: "Pagendingan.jpg",
+                content: "Layanan antar gratis khusus wilayah Pagendingan dan sekitarnya.  Pesan sekarang segera kami antar!"
+            }
+        ];
+
+        // ==================================================================================
+        // --- BAGIAN 2: PENGATURAN MARTABAK MANIS (25 ITEM) ---
+        // ==================================================================================
+        const manisData = [
+            // MARTABAK COKLAT
+            { id: 1,  name: "Coklat",             price: 18000, category: "Martabak Coklat", image: "MartabakCoklat.jpg" },
+            { id: 2,  name: "Coklat Keju",       price: 18000, category: "Martabak Coklat", image: "MartabakCoklat.jpg" },
+            { id: 4,  name: "Coklat Kacang", price: 18000, category: "Martabak Coklat", image: "MartabakCoklat.jpg" },
+            { id: 7,  name: "Kacang",     price: 18000, category: "Martabak Coklat", image: "MartabakCoklat.jpg" },
+            { id: 9,  name: "Kacang keju",           price: 18000, category: "Martabak Coklat", image: "MartabakCoklat.jpg" },
+            { id: 10, name: "Keju",      price: 18000, category: "Martabak Coklat", image: "MartabakCoklat.jpg" },
+            { id: 16, name: "Komplit (Coklat, Kacang, Keju)",     price: 18000, category: "Martabak Coklat", image: "MartabakCoklat.jpg" },
+
+            // MARTABAK ORIGINAL (Keju, Kacang, Cookies)
+            { id: 3,  name: "Coklat",              price: 18000, category: "Martabak Original", image: "MartabakOriginal.jpg" },
+            { id: 5,  name: "Coklat Keju",            price: 18000, category: "Martabak Original", image: "MartabakOriginal.jpg" },
+            { id: 6,  name: "Coklat Kacang",       price: 18000, category: "Martabak Original", image: "MartabakOriginal.jpg" },
+            { id: 8,  name: "Kacang",         price: 18000, category: "Martabak Original", image: "MartabakOriginal.jpg" },
+            { id: 19, name: "Kacang keju",      price: 18000, category: "Martabak Original", image: "MartabakOriginal.jpg" },
+            { id: 20, name: "Keju",       price: 18000, category: "Martabak Original", image: "MartabakOriginal.jpg" },
+            { id: 21, name: "Komplit (Coklat, Kacang, Keju)",             price: 18000, category: "Martabak Original", image: "MartabakOriginal.jpg" },
+            { id: 22, name: "Pisang Keju/Coklat",            price: 18000, category: "Martabak Original", image: "MartabakOriginal.jpg" },
+
+            // MARTABAK PANDAN (Sarikaya, Buah-buahan, Unik)
+            { id: 11, name: "Coklat",          price: 18000, category: "Martabak Pandan", image: "Martabakpandan.jpg" },
+            { id: 12, name: "Coklat Keju",   price: 18000, category: "Martabak Pandan", image: "Martabakpandan.jpg" },
+            { id: 13, name: "Coklat Kacang",             price: 18000, category: "Martabak Pandan", image: "Martabakpandan.jpg" },
+            { id: 14, name: "Kacang",            price: 18000, category: "Martabak Pandan", image: "Martabakpandan.jpg" },
+            { id: 15, name: "Kacang keju",       price: 18000, category: "Martabak Pandan", image: "Martabakpandan.jpg" },
+            { id: 17, name: "Keju",     price: 18000, category: "Martabak Pandan", image: "Martabakpandan.jpg" },
+            { id: 18, name: "Komplit (Coklat, Kacang, Keju)",         price: 18000, category: "Martabak Pandan", image: "Martabakpandan.jpg" },
+            { id: 23, name: "Pisang keju/coklat",  price: 18000, category: "Martabak Pandan", image: "Martabakpandan.jpg" },
+            { id: 24, name: "Coklat Lumer",         price: 18000, category: "Martabak Pandan", image: "Martabakpandan.jpg" },
+            { id: 25, name: "Tiramisu",          price: 18000, category: "Martabak Pandan", image: "Martabakpandan.jpg" }
+        ];
+
+        // ==================================================================================
+        // --- BAGIAN 3: PENGATURAN MARTABAK TELUR ---
+        // ==================================================================================
+        const telurData = [
+            { id: 101, name: "Martabak Telur Ayam Biasa", price: 25000, category: "Martabak Telur", image: "Martabak telur.jpg" },
+            { id: 102, name: "Martabak Telur Sapi", price: 30000, category: "Martabak Telur", image: "Martabak telur.jpg" },
+            { id: 103, name: "Martabak Telur Bebek", price: 35000, category: "Martabak Telur", image: "Martabak telur.jpg" }
+        ];
+
+        // ==================================================================================
+        // --- BAGIAN 4: PENGATURAN ROTI BAKAR (10 ITEM) ---
+        // ==================================================================================
+        const rotiBakarData = [
+            { id: 201, name: "Coklat Lumer",       price: 18000, category: "Roti Bakar", image: "Roti BakarGemoyy.jpg" },
+            { id: 202, name: "Keju",          price: 18000, category: "Roti Bakar", image: "Roti BakarGemoyy.jpg" },
+            { id: 203, name: "Coklat Keju",               price: 18000, category: "Roti Bakar", image: "Roti BakarGemoyy.jpg" },
+            { id: 204, name: "Coklat Kacang",          price: 18000, category: "Roti Bakar", image: "Roti BakarGemoyy.jpg" },
+            { id: 205, name: "Stoberry",           price: 18000, category: "Roti Bakar", image: "Roti BakarGemoyy.jpg" },
+            { id: 206, name: "Tiramissu",          price: 18000, category: "Roti Bakar", image: "Roti BakarGemoyy.jpg" },
+            { id: 207, name: "Bluberry",              price: 18000, category: "Roti Bakar", image: "Roti BakarGemoyy.jpg" },
+            { id: 208, name: "Greentea",             price: 18000, category: "Roti Bakar", image: "Roti BakarGemoyy.jpg" },
+            { id: 209, name: "Taro",       price: 18000, category: "Roti Bakar", image: "Roti BakarGemoyy.jpg" },
+            { id: 210, name: "Sosis",             price: 18000, category: "Roti Bakar", image: "Roti BakarGemoyy.jpg" }
+        ];
+
+        // Gabungkan semua data produk
+        const products = [...manisData, ...telurData, ...rotiBakarData];
+
+        // ==================================================================================
+        // --- LOGIKA PROGRAM ---
+        // ==================================================================================
+
+        let cart = [];
+        let activeCategory = 'Beranda';
+
+        const formatRupiah = (number) => {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(number);
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategories();
+            renderProducts(products); 
+            updateCartUI();
+        });
+
+        // --- Render Kategori ---
+        function renderCategories() {
+            const categories = ['Beranda', 'Martabak Coklat', 'Martabak Pandan', 'Martabak Original', 'Martabak Telur', 'Roti Bakar', 'Promosi', 'Informasi'];
+            const container = document.getElementById('categoryList');
+            
+            container.innerHTML = categories.map(cat => {
+                let icon = '';
+                if(cat === 'Martabak Coklat') icon = '<i class="fas fa-cookie-bite"></i>';
+                else if(cat === 'Martabak Pandan') icon = '<i class="fas fa-leaf"></i>';
+                else if(cat === 'Martabak Original') icon = '<i class="fas fa-bread-slice"></i>';
+                else if(cat === 'Martabak Telur') icon = '<i class="fas fa-egg"></i>';
+                else if(cat === 'Roti Bakar') icon = '<i class="fas fa-fire-burner"></i>';
+                else if(cat === 'Promosi') icon = '<i class="fas fa-bullhorn" style="color: #eab308;"></i>';
+                else if(cat === 'Informasi') icon = '<i class="fas fa-info-circle" style="color: #3b82f6;"></i>';
+                else icon = '<i class="fas fa-home"></i>';
+
+                return `
+                <li>
+                    <button class="category-btn ${cat === activeCategory ? 'active' : ''}" 
+                            onclick="filterCategory('${cat}')">
+                        <span>${cat}</span>
+                        ${icon}
+                    </button>
+                </li>
+            `;
+            }).join('');
+        }
+
+        // --- Render Produk ---
+        function renderProducts(items) {
+            const container = document.getElementById('productsGrid');
+            container.classList.add('active');
+            
+            document.getElementById('newsGrid').classList.remove('active'); 
+            document.getElementById('infoView').classList.remove('active');
+            document.body.classList.remove('viewing-special');
+            
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <p>Produk tidak ditemukan.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = items.map(product => `
+                <article class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">${product.category}</span>
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-price">${formatRupiah(product.price)}</div>
+                        <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
+                            <i class="fas fa-plus"></i> Pesan
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // --- Render Promosi ---
+        function renderPromosi(items) {
+            const container = document.getElementById('newsGrid');
+            
+            document.getElementById('productsGrid').classList.remove('active');
+            document.getElementById('infoView').classList.remove('active');
+            container.classList.add('active');
+            document.body.classList.add('viewing-special');
+
+            if (items.length === 0) {
+                container.innerHTML = `<p style="text-align:center;">Belum ada promosi saat ini.</p>`;
+                return;
+            }
+
+            container.innerHTML = items.map(news => `
+                <article class="news-card">
+                    <img src="${news.image}" alt="${news.title}" class="news-image" onerror="this.src='https://via.placeholder.com/800x400?text=Promo'">
+                    <div class="news-content">
+                        <div class="news-date"><i class="far fa-calendar-alt"></i> ${news.date}</div>
+                        <h3 class="news-title">${news.title}</h3>
+                        <div class="news-desc">${news.content}</div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // --- Render Informasi ---
+        function renderInformasi() {
+            const infoView = document.getElementById('infoView');
+            
+            document.getElementById('productsGrid').classList.remove('active');
+            document.getElementById('newsGrid').classList.remove('active');
+            infoView.classList.add('active');
+            document.body.classList.add('viewing-special');
+        }
+
+        // --- Filter Logic ---
+        function filterCategory(category) {
+            activeCategory = category;
+            renderCategories(); 
+            
+            if (category === 'Promosi') {
+                renderPromosi(promosiData);
+                return;
+            }
+
+            if (category === 'Informasi') {
+                renderInformasi();
+                return;
+            }
+
+            let itemsToRender = [];
+
+            if (category === 'Beranda') {
+                itemsToRender = products; 
+            } else if (category === 'Martabak Coklat') {
+                itemsToRender = products.filter(p => p.category === 'Martabak Coklat');
+            } else if (category === 'Martabak Pandan') {
+                itemsToRender = products.filter(p => p.category === 'Martabak Pandan');
+            } else if (category === 'Martabak Original') {
+                itemsToRender = products.filter(p => p.category === 'Martabak Original');
+            } else if (category === 'Martabak Telur') { 
+                itemsToRender = products.filter(p => p.category === 'Martabak Telur');
+            } else if (category === 'Roti Bakar') {
+                itemsToRender = products.filter(p => p.category === 'Roti Bakar');
+            }
+
+            renderProducts(itemsToRender);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const keyword = e.target.value.toLowerCase();
+            if (keyword.length > 0) {
+                activeCategory = ''; 
+                renderCategories();
+            } else {
+                activeCategory = 'Beranda';
+                renderCategories();
+            }
+
+            const filtered = products.filter(p => 
+                p.name.toLowerCase().includes(keyword) || 
+                p.category.toLowerCase().includes(keyword)
+            );
+            renderProducts(filtered);
+        });
+
+        // --- Logika Keranjang ---
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`"${product.name}" masuk keranjang`, 'success');
+        }
+
+        function updateCartQty(productId, change) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex > -1) {
+                cart[itemIndex].qty += change;
+                if (cart[itemIndex].qty <= 0) {
+                    cart.splice(itemIndex, 1);
+                }
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const cartCountBadge = document.getElementById('cartCount');
+            const cartTotalEl = document.getElementById('cartTotal');
+            const cartFormSection = document.getElementById('cartFormSection');
+
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            cartCountBadge.textContent = totalQty;
+            cartCountBadge.style.display = totalQty > 0 ? 'flex' : 'none';
+
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            cartTotalEl.textContent = formatRupiah(totalPrice);
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-basket"></i>
+                        <p>Keranjang kuning kosong.</p>
+                    </div>
+                `;
+                cartFormSection.style.display = 'none';
+            } else {
+                cartFormSection.style.display = 'block';
+                cartItemsContainer.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/70?text=Img'">
+                        <div class="cart-item-details">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-category">${item.category}</div>
+                            <div class="cart-item-price">${formatRupiah(item.price)}</div>
+                            <div class="cart-item-controls">
+                                <button class="qty-btn" onclick="updateCartQty(${item.id}, -1)">-</button>
+                                <span>${item.qty}</span>
+                                <button class="qty-btn" onclick="updateCartQty(${item.id}, 1)">+</button>
+                                <button class="cart-item-remove" onclick="removeFromCart(${item.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function toggleCart() {
+            document.getElementById('cartWrapper').classList.toggle('cart-open');
+        }
+
+        // --- Process Checkout (Membaca data dari form di sidebar) ---
+        function processCheckout(e) {
+            if (e) e.preventDefault();
+
+            if (cart.length === 0) {
+                showToast('Keranjang kosong, tidak bisa pesan!', 'error');
+                return;
+            }
+
+            const name = document.getElementById('nameCart').value;
+            const address = document.getElementById('addressCart').value;
+            const payment = document.getElementById('paymentCart').value;
+
+            if(!name || !address) {
+                showToast('Mohon lengkapi Nama dan Alamat', 'error');
+                return;
+            }
+
+            // NOMOR WA ADMIN
+            const sellerPhone = "6282118708534"; 
+
+            let messageItems = "";
+            let totalAmount = 0;
+
+            cart.forEach((item, index) => {
+                const subtotal = item.price * item.qty;
+                totalAmount += subtotal;
+                // TAMBAH KATEGORI DI SINI (Format: [Kategori] Nama (qty) - Harga)
+                messageItems += `${index + 1}. [${item.category}] ${item.name} (${item.qty}x) - ${formatRupiah(subtotal)}\n`;
+            });
+
+            const finalMessage = `
+*Halo Martabak Padamoro, Saya ingin pesan:*
+-----------------------------
+👤 *Nama:* ${name}
+📍 *Alamat:* ${address}
+💳 *Pembayaran:* ${payment}
+
+📝 *Detail Pesanan:*
+ ${messageItems}
+-----------------------------
+💰 *Total Tagihan:* ${formatRupiah(totalAmount)}
+
+Mohon segera diproses ya, makasih!
+            `;
+
+            const encodedMessage = encodeURIComponent(finalMessage);
+            const waLink = `https://wa.me/${sellerPhone}?text=${encodedMessage}`;
+
+            cart = [];
+            document.getElementById('nameCart').value = '';
+            document.getElementById('addressCart').value = '';
+            updateCartUI();
+            toggleCart();
+            
+            window.open(waLink, '_blank');
+            showToast('Membuka WhatsApp...', 'success');
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            
+            toast.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.3s ease forwards';
+                toast.addEventListener('animationend', () => {
+                    toast.remove();
+                });
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
