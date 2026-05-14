@@ -142,7 +142,6 @@
             gap: 1.5rem;
         }
 
-        /* Sidebar - untuk mobile akan di atas */
         .sidebar {
             background: var(--white);
             border-radius: 28px;
@@ -200,13 +199,11 @@
             gap: 1.2rem;
         }
         
-        /* Responsive untuk tablet */
         @media (max-width: 900px) {
             .products-grid { grid-template-columns: repeat(2, 1fr); }
             .container { gap: 1.2rem; }
         }
         
-        /* Responsive untuk mobile - sidebar di atas */
         @media (max-width: 640px) {
             .container {
                 grid-template-columns: 1fr;
@@ -234,7 +231,6 @@
                 width: auto;
                 padding: 0.4rem 0.9rem;
                 font-size: 0.8rem;
-                border-radius: 40px;
                 display: inline-flex;
                 gap: 6px;
             }
@@ -373,7 +369,6 @@
             border-color: var(--primary);
         }
 
-        /* Rasa Dua Tabel */
         .rasa-dua-tabel {
             background: white;
             border-radius: 28px;
@@ -499,7 +494,6 @@
             transition: 0.2s;
         }
 
-        /* Cart Sidebar */
         .cart-overlay {
             position: fixed; top:0; left:0; width:100%; height:100%;
             background: rgba(0,0,0,0.5); z-index: 200; opacity:0; visibility: hidden; transition: 0.2s;
@@ -519,29 +513,16 @@
         .cart-total { display: flex; justify-content: space-between; font-weight: 800; font-size: 1rem; }
         .checkout-btn { background: #25D366; width: 100%; border: none; padding: 0.7rem; border-radius: 60px; color: white; font-weight: bold; margin-top: 0.6rem; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
         .cart-form-section { padding: 0.6rem 0.8rem; display: none; background: #fef8f2; }
-        input, textarea { width: 100%; margin-bottom: 8px; padding: 8px 12px; border-radius: 24px; border: 1px solid #f6d5bd; background: white; font-size: 0.85rem; }
-        /* payment options styling */
-        .payment-options {
-            display: flex;
-            gap: 1rem;
-            margin: 0.5rem 0 0.8rem 0;
-            padding: 0.5rem 0;
-            border-top: 1px dashed #ffe0cc;
-            border-bottom: 1px dashed #ffe0cc;
+        input, textarea, select { 
+            width: 100%; margin-bottom: 8px; padding: 8px 12px; border-radius: 24px; 
+            border: 1px solid #f6d5bd; background: white; font-size: 0.85rem; 
         }
-        .payment-options label {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #b45f2a;
+        select {
             cursor: pointer;
-        }
-        .payment-options input {
-            width: auto;
-            margin: 0;
-            accent-color: var(--primary);
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%23d35400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
         }
         .payment-info {
             font-size: 0.7rem;
@@ -552,6 +533,7 @@
             display: inline-block;
             margin-top: 5px;
         }
+        
         .cart-item-rasa-manual {
             margin: 6px 0 4px;
         }
@@ -619,15 +601,12 @@
         <div class="cart-form-section" id="cartFormSection">
             <input type="text" id="nameCart" placeholder="Nama Pemesan *">
             <textarea id="addressCart" rows="2" placeholder="Alamat Lengkap *"></textarea>
-            <div class="payment-options" id="paymentOptionsDiv">
-                <label>
-                    <input type="radio" name="paymentMethod" value="Transfer Bank (BRI)" checked> 💸 Transfer Bank (BRI)
-                </label>
-                <label>
-                    <input type="radio" name="paymentMethod" value="Cash"> 💵 Cash (Bayar di Tempat)
-                </label>
-            </div>
-            <div class="payment-info"><i class="fas fa-university"></i> Pilih metode pembayaran.</div>
+            <!-- DROPDOWN METODE PEMBAYARAN -->
+            <select id="paymentMethod">
+                <option value="Transfer Bank BRI">🏦 Transfer Bank BRI</option>
+                <option value="Cash (Bayar di Tempat)">💵 Cash (Bayar di Tempat)</option>
+            </select>
+            <div class="payment-info"><i class="fas fa-university"></i> Pilih metode pembayaran di atas.</div>
         </div>
         <div class="cart-footer">
             <div class="cart-total"><span>Total</span><span id="cartTotal">Rp 0</span></div>
@@ -639,10 +618,10 @@
 
 <script>
     // ======================= HARGA FIX =======================
-    const PRICE_MANIS = 20000;        // Martabak Manis
-    const PRICE_TELUR_AYAM = 25000;   // Martabak Telur Ayam
-    const PRICE_TELUR_SAPI = 35000;   // Martabak Telur Sapi
-    const PRICE_ROTI_BAKAR = 20000;   // Roti Bakar
+    const PRICE_MANIS = 20000;
+    const PRICE_TELUR_AYAM = 25000;
+    const PRICE_TELUR_SAPI = 35000;
+    const PRICE_ROTI_BAKAR = 20000;
 
     const martabakManis = [
         { id: 1, name: "Martabak Pandan", price: PRICE_MANIS, category: "Martabak Manis", image: "Martabakpandan.jpg" },
@@ -824,18 +803,14 @@
     
     function toggleCart(){ document.getElementById('cartWrapper').classList.toggle('cart-open'); }
     
-    function getSelectedPayment() {
-        const selected = document.querySelector('input[name="paymentMethod"]:checked');
-        return selected ? selected.value : "Transfer Bank (BRI)";
-    }
-    
     function processCheckout(){
         if(cart.length===0) return showToast('Keranjang kosong','error');
         let name = document.getElementById('nameCart').value;
         let addr = document.getElementById('addressCart').value;
         if(!name || !addr) return showToast('Isi nama & alamat dulu ya','error');
         
-        let paymentMethod = getSelectedPayment();
+        // Ambil nilai dari dropdown
+        let paymentMethod = document.getElementById('paymentMethod').value;
         
         let msg = `🍫 *MARTABAK PADAMORO* 🍫\n👤 Nama: ${name}\n📍 Alamat: ${addr}\n💳 Pembayaran: ${paymentMethod}\n\n🧾 Detail Pesanan:\n`;
         let total=0;
@@ -853,7 +828,7 @@
         showToast('Pesanan dikirim ke WhatsApp admin','success');
     }
     
-    // === TABEL RASA DUA KOLOM (DIPASTIKAN KEMBALI) ===
+    // TABEL RASA (DIPASTIKAN KEMBALI)
     function renderDuaTabelRasa() {
         const grid = document.getElementById('productsGrid');
         grid.style.display = 'none';
