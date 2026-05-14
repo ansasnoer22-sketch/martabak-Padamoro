@@ -520,8 +520,38 @@
         .checkout-btn { background: #25D366; width: 100%; border: none; padding: 0.7rem; border-radius: 60px; color: white; font-weight: bold; margin-top: 0.6rem; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
         .cart-form-section { padding: 0.6rem 0.8rem; display: none; background: #fef8f2; }
         input, textarea { width: 100%; margin-bottom: 8px; padding: 8px 12px; border-radius: 24px; border: 1px solid #f6d5bd; background: white; font-size: 0.85rem; }
-        .payment-info { font-size: 0.7rem; color: #7f6b5a; background: #fff0e6; padding: 4px 10px; border-radius: 40px; display: inline-block; margin-top: 5px; }
-        
+        /* payment options styling */
+        .payment-options {
+            display: flex;
+            gap: 1rem;
+            margin: 0.5rem 0 0.8rem 0;
+            padding: 0.5rem 0;
+            border-top: 1px dashed #ffe0cc;
+            border-bottom: 1px dashed #ffe0cc;
+        }
+        .payment-options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #b45f2a;
+            cursor: pointer;
+        }
+        .payment-options input {
+            width: auto;
+            margin: 0;
+            accent-color: var(--primary);
+        }
+        .payment-info {
+            font-size: 0.7rem;
+            color: #7f6b5a;
+            background: #fff0e6;
+            padding: 4px 10px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-top: 5px;
+        }
         .cart-item-rasa-manual {
             margin: 6px 0 4px;
         }
@@ -587,9 +617,17 @@
         <div class="cart-header"><h2>🛍️ Keranjang Pesanan</h2><button class="close-cart" onclick="toggleCart()">&times;</button></div>
         <div class="cart-items" id="cartItems"></div>
         <div class="cart-form-section" id="cartFormSection">
-            <input type="text" id="nameCart" placeholder="Nama Pemesan">
-            <textarea id="addressCart" rows="2" placeholder="Alamat Lengkap"></textarea>
-            <div class="payment-info"><i class="fas fa-university"></i> Pembayaran: Transfer Bank (BRI) / Cash di tempat</div>
+            <input type="text" id="nameCart" placeholder="Nama Pemesan *">
+            <textarea id="addressCart" rows="2" placeholder="Alamat Lengkap *"></textarea>
+            <div class="payment-options" id="paymentOptionsDiv">
+                <label>
+                    <input type="radio" name="paymentMethod" value="Transfer Bank (BRI)" checked> 💸 Transfer Bank (BRI)
+                </label>
+                <label>
+                    <input type="radio" name="paymentMethod" value="Cash"> 💵 Cash (Bayar di Tempat)
+                </label>
+            </div>
+            <div class="payment-info"><i class="fas fa-university"></i> Pilih metode pembayaran.</div>
         </div>
         <div class="cart-footer">
             <div class="cart-total"><span>Total</span><span id="cartTotal">Rp 0</span></div>
@@ -786,12 +824,20 @@
     
     function toggleCart(){ document.getElementById('cartWrapper').classList.toggle('cart-open'); }
     
+    function getSelectedPayment() {
+        const selected = document.querySelector('input[name="paymentMethod"]:checked');
+        return selected ? selected.value : "Transfer Bank (BRI)";
+    }
+    
     function processCheckout(){
         if(cart.length===0) return showToast('Keranjang kosong','error');
         let name = document.getElementById('nameCart').value;
         let addr = document.getElementById('addressCart').value;
         if(!name || !addr) return showToast('Isi nama & alamat dulu ya','error');
-        let msg = `🍫 *MARTABAK PADAMORO* 🍫\n👤 Nama: ${name}\n📍 Alamat: ${addr}\n💳 Pembayaran: Transfer Bank (BRI) / Cash\n\n🧾 Detail Pesanan:\n`;
+        
+        let paymentMethod = getSelectedPayment();
+        
+        let msg = `🍫 *MARTABAK PADAMORO* 🍫\n👤 Nama: ${name}\n📍 Alamat: ${addr}\n💳 Pembayaran: ${paymentMethod}\n\n🧾 Detail Pesanan:\n`;
         let total=0;
         cart.forEach((it,idx)=>{
             let sub = it.price * it.qty;
@@ -807,6 +853,7 @@
         showToast('Pesanan dikirim ke WhatsApp admin','success');
     }
     
+    // === TABEL RASA DUA KOLOM (DIPASTIKAN KEMBALI) ===
     function renderDuaTabelRasa() {
         const grid = document.getElementById('productsGrid');
         grid.style.display = 'none';
@@ -817,24 +864,24 @@
         rasaDiv.innerHTML = `
         <div class="rasa-dua-tabel">
             <h2><i class="fas fa-chart-simple"></i> ✨ Varian Rasa Spesial ✨</h2>
-            <div class="sub-title">Setiap rasa bisa dipesan dengan menulis catatan di keranjang.</div>
+            <div class="sub-title">Setiap rasa bisa dipesan dengan menulis catatan di keranjang (kolom Catatan Rasa).</div>
             <div class="tabel-rasa">
                 <div class="tabel-header"><i class="fas fa-candy-cane"></i> 🥞 Rasa Martabak Manis</div>
-                 <table>
+                <table>
                     <thead><tr><th>Rasa</th><th>Deskripsi</th><th>Harga</th></tr></thead>
                     <tbody>
                         ${rasaMartabakManis.map(r => `<tr><td><strong>${r.nama}</strong></td><td>${r.deskripsi}</td><td><span class="harga-badge">${formatRupiah(r.harga)}</span></td></tr>`).join('')}
                     </tbody>
-                 </table>
+                </table>
             </div>
             <div class="tabel-rasa">
                 <div class="tabel-header"><i class="fas fa-bread-slice"></i> 🍞 Rasa Roti Bakar</div>
-                 <table>
+                <table>
                     <thead><tr><th>Rasa</th><th>Deskripsi</th><th>Harga</th></tr></thead>
                     <tbody>
                         ${rasaRotiBakar.map(r => `<tr><td><strong>${r.nama}</strong></td><td>${r.deskripsi}</td><td><span class="harga-badge">${formatRupiah(r.harga)}</span></td></tr>`).join('')}
                     </tbody>
-                 </table>
+                </table>
             </div>
             <div class="info-tambahan"><i class="fas fa-edit"></i> Kamu bisa menuliskan rasa favoritmu di kolom "Catatan Rasa" pada halaman keranjang.</div>
         </div>`;
