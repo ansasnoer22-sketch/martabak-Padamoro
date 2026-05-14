@@ -46,16 +46,16 @@
         .navbar {
             max-width: 1280px;
             margin: 0 auto;
-            padding: 0.8rem 1.8rem;
+            padding: 0.8rem 1.5rem;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            gap: 1rem;
+            gap: 0.8rem;
         }
         .logo {
             font-weight: 800;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             letter-spacing: -0.3px;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             -webkit-background-clip: text;
@@ -63,30 +63,30 @@
             color: transparent;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.5rem;
             cursor: pointer;
         }
         .logo i {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            padding: 8px 10px;
+            padding: 6px 8px;
             border-radius: 60px;
             color: white;
-            font-size: 1rem;
+            font-size: 0.9rem;
             box-shadow: 0 4px 10px rgba(211,84,0,0.3);
         }
         .search-bar {
             flex: 1;
-            max-width: 320px;
+            max-width: 280px;
             position: relative;
         }
         .search-bar input {
             width: 100%;
-            padding: 0.7rem 1rem 0.7rem 2.6rem;
+            padding: 0.6rem 1rem 0.6rem 2.4rem;
             border-radius: 60px;
             border: 1px solid #f3d9c9;
             background: white;
             transition: 0.2s;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             box-shadow: var(--shadow-sm);
         }
         .search-bar input:focus {
@@ -96,23 +96,24 @@
         }
         .search-bar i {
             position: absolute;
-            left: 1rem;
+            left: 0.9rem;
             top: 50%;
             transform: translateY(-50%);
             color: var(--primary);
+            font-size: 0.85rem;
         }
         .cart-btn {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             border: none;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             position: relative;
             cursor: pointer;
             color: white;
-            padding: 8px 14px;
+            padding: 6px 12px;
             border-radius: 50px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             transition: 0.2s;
         }
         .cart-btn:hover {
@@ -122,9 +123,9 @@
         .cart-count {
             background: #ff6b6b;
             color: white;
-            font-size: 0.7rem;
-            width: 20px;
-            height: 20px;
+            font-size: 0.65rem;
+            width: 18px;
+            height: 18px;
             border-radius: 40px;
             display: flex;
             font-weight: bold;
@@ -134,28 +135,29 @@
 
         .container {
             max-width: 1280px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
             display: grid;
             grid-template-columns: 260px 1fr;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
+        /* Sidebar - untuk mobile akan di atas */
         .sidebar {
             background: var(--white);
-            border-radius: 36px;
-            padding: 1.8rem 1.2rem;
+            border-radius: 28px;
+            padding: 1.2rem 1rem;
             box-shadow: var(--shadow-md);
             position: sticky;
-            top: 90px;
+            top: 80px;
             height: fit-content;
             border: 1px solid rgba(211,84,0,0.1);
         }
         .sidebar h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1.2rem;
-            border-left: 5px solid var(--accent);
-            padding-left: 0.9rem;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent);
+            padding-left: 0.8rem;
             color: var(--primary-dark);
             font-weight: 800;
         }
@@ -168,10 +170,10 @@
         .category-btn {
             width: 100%;
             text-align: left;
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 0.8rem;
             background: transparent;
             border: none;
-            border-radius: 50px;
+            border-radius: 40px;
             font-weight: 600;
             color: #5a4a3a;
             display: flex;
@@ -179,7 +181,7 @@
             align-items: center;
             cursor: pointer;
             transition: 0.2s;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         .category-btn.active {
             background: linear-gradient(105deg, var(--primary) 0%, var(--accent) 100%);
@@ -195,14 +197,82 @@
         .products-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.8rem;
+            gap: 1.2rem;
         }
+        
+        /* Responsive untuk tablet */
         @media (max-width: 900px) {
             .products-grid { grid-template-columns: repeat(2, 1fr); }
+            .container { gap: 1.2rem; }
         }
-        @media (max-width: 560px) {
-            .products-grid { grid-template-columns: 1fr; }
-            .container { grid-template-columns: 1fr; }
+        
+        /* Responsive untuk mobile - sidebar di atas */
+        @media (max-width: 640px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0 0.8rem;
+            }
+            .sidebar {
+                position: relative;
+                top: 0;
+                margin-bottom: 0.5rem;
+                padding: 0.8rem 0.8rem;
+                border-radius: 20px;
+            }
+            .sidebar h3 {
+                font-size: 0.9rem;
+                margin-bottom: 0.7rem;
+            }
+            .category-list {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .category-btn {
+                width: auto;
+                padding: 0.4rem 0.9rem;
+                font-size: 0.8rem;
+                border-radius: 40px;
+                display: inline-flex;
+                gap: 6px;
+            }
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .navbar {
+                padding: 0.6rem 0.8rem;
+            }
+            .logo {
+                font-size: 1rem;
+            }
+            .logo i {
+                padding: 5px 7px;
+                font-size: 0.8rem;
+            }
+            .search-bar {
+                max-width: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .search-bar {
+                order: 3;
+                max-width: 100%;
+                width: 100%;
+            }
+            .cart-btn {
+                order: 2;
+            }
+            .logo {
+                order: 1;
+            }
         }
 
         .product-card {
@@ -215,7 +285,7 @@
             cursor: pointer;
         }
         .product-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-5px);
             box-shadow: var(--shadow-hover);
         }
         .product-image {
@@ -229,43 +299,44 @@
             transform: scale(1.02);
         }
         .product-info {
-            padding: 1rem 1.2rem 1.3rem;
+            padding: 0.8rem 1rem 1rem;
         }
         .product-category {
             background: #fee9dd;
             display: inline-block;
-            padding: 0.25rem 1rem;
+            padding: 0.2rem 0.8rem;
             border-radius: 40px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 800;
             color: var(--primary);
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.5rem;
             letter-spacing: 0.5px;
         }
         .product-title {
             font-weight: 800;
-            font-size: 1.05rem;
-            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
             color: var(--dark);
         }
         .product-price {
             font-weight: 800;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: var(--primary);
-            margin: 0.6rem 0;
+            margin: 0.4rem 0;
         }
         .add-to-cart-btn {
             width: 100%;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             border: none;
-            padding: 0.75rem;
-            border-radius: 44px;
+            padding: 0.6rem;
+            border-radius: 40px;
             color: white;
             font-weight: 700;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.6rem;
+            gap: 0.5rem;
             cursor: pointer;
             transition: 0.2s;
         }
@@ -275,18 +346,19 @@
         }
 
         .pagination {
-            margin-top: 2.5rem;
+            margin-top: 1.8rem;
             display: flex;
             justify-content: center;
-            gap: 0.6rem;
+            gap: 0.5rem;
             flex-wrap: wrap;
         }
         .page-btn {
             background: white;
             border: 1px solid #ffd9c4;
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 40px;
             font-weight: 600;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: 0.2s;
         }
@@ -301,53 +373,57 @@
             border-color: var(--primary);
         }
 
+        /* Rasa Dua Tabel */
         .rasa-dua-tabel {
             background: white;
-            border-radius: 36px;
-            padding: 2rem;
+            border-radius: 28px;
+            padding: 1.2rem;
             box-shadow: var(--shadow-md);
             animation: fadeIn 0.3s ease;
         }
         .rasa-dua-tabel h2 {
-            font-size: 1.8rem;
+            font-size: 1.3rem;
             font-weight: 800;
             background: linear-gradient(135deg, #d35400, #f39c12);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
         }
         .sub-title {
             color: #7f6b5a;
-            margin-bottom: 1.8rem;
+            margin-bottom: 1.2rem;
             border-left: 3px solid var(--accent);
-            padding-left: 1rem;
+            padding-left: 0.8rem;
+            font-size: 0.8rem;
         }
         .tabel-rasa {
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem;
             background: #fffbf8;
-            border-radius: 28px;
-            overflow: hidden;
+            border-radius: 20px;
+            overflow-x: auto;
             border: 1px solid #ffebdd;
         }
         .tabel-header {
             background: linear-gradient(135deg, #fff1e8, #ffe8dd);
-            padding: 1rem 1.5rem;
+            padding: 0.7rem 1rem;
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 0.95rem;
             color: var(--primary-dark);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 300px;
         }
         th, td {
-            padding: 1rem 1.2rem;
+            padding: 0.7rem 0.8rem;
             text-align: left;
             border-bottom: 1px solid #ffe3d4;
+            font-size: 0.8rem;
         }
         th {
             background: #fff4ed;
@@ -356,114 +432,119 @@
         }
         .harga-badge {
             background: #fee2d0;
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 50px;
             font-weight: 800;
             color: var(--primary);
             display: inline-block;
+            font-size: 0.75rem;
         }
         .info-tambahan {
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             background: linear-gradient(135deg, #fff1e6, #ffecd9);
-            border-radius: 24px;
-            padding: 1rem;
+            border-radius: 20px;
+            padding: 0.8rem;
             text-align: center;
             font-style: italic;
+            font-size: 0.75rem;
             color: var(--primary-dark);
         }
 
         .info-section {
             background: white;
-            border-radius: 36px;
-            padding: 2rem;
+            border-radius: 28px;
+            padding: 1.2rem;
             box-shadow: var(--shadow-md);
         }
         .info-section h2 {
-            font-size: 1.7rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: var(--primary);
             border-bottom: 3px dotted #fbc4a0;
             display: inline-block;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
         .info-card {
             background: linear-gradient(135deg, #fefaf5, #fff6ef);
-            border-radius: 28px;
-            padding: 1rem 1.4rem;
+            border-radius: 20px;
+            padding: 0.8rem 1rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
             transition: 0.2s;
         }
-        .info-card:hover {
-            transform: translateX(5px);
-        }
         .info-icon {
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             background: #ffede1;
             border-radius: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: var(--primary);
         }
         .wa-button {
             background: #25D366;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 0.5rem 1.2rem;
+            gap: 6px;
+            padding: 0.4rem 1rem;
             border-radius: 40px;
             color: white;
             text-decoration: none;
             font-weight: 600;
+            font-size: 0.8rem;
             transition: 0.2s;
         }
-        .wa-button:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(37,211,102,0.3);
-        }
 
+        /* Cart Sidebar */
         .cart-overlay {
             position: fixed; top:0; left:0; width:100%; height:100%;
             background: rgba(0,0,0,0.5); z-index: 200; opacity:0; visibility: hidden; transition: 0.2s;
         }
         .cart-sidebar {
-            position: fixed; top:0; right: -460px; width: 420px; max-width: 92%; height: 100%;
+            position: fixed; top:0; right: -380px; width: 360px; max-width: 90%; height: 100%;
             background: white; z-index: 201; transition: 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
-            display: flex; flex-direction: column; border-radius: 32px 0 0 32px;
+            display: flex; flex-direction: column; border-radius: 28px 0 0 28px;
             box-shadow: -8px 0 30px rgba(0,0,0,0.15);
         }
         .cart-open .cart-overlay { opacity:1; visibility: visible; }
         .cart-open .cart-sidebar { right:0; }
-        .cart-header { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; padding: 1.2rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
-        .cart-items { flex:1; overflow-y: auto; padding: 1rem; }
-        .cart-footer { padding: 1rem; border-top: 1px solid #f0e0d4; background: #fffaf5; }
-        .cart-total { display: flex; justify-content: space-between; font-weight: 800; font-size: 1.2rem; }
-        .checkout-btn { background: #25D366; width: 100%; border: none; padding: 0.8rem; border-radius: 60px; color: white; font-weight: bold; margin-top: 0.8rem; cursor: pointer; transition: 0.2s; }
-        .checkout-btn:hover { transform: scale(0.98); }
-        .cart-form-section { padding: 0.8rem 1rem; display: none; background: #fef8f2; }
-        input, textarea { width: 100%; margin-bottom: 8px; padding: 10px; border-radius: 28px; border: 1px solid #f6d5bd; background: white; }
-        .payment-info { font-size: 0.8rem; color: #7f6b5a; background: #fff0e6; padding: 5px 12px; border-radius: 40px; display: inline-block; margin-top: 5px; }
+        .cart-header { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; padding: 1rem 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+        .cart-header h2 { font-size: 1.1rem; }
+        .cart-items { flex:1; overflow-y: auto; padding: 0.8rem; }
+        .cart-footer { padding: 0.8rem; border-top: 1px solid #f0e0d4; background: #fffaf5; }
+        .cart-total { display: flex; justify-content: space-between; font-weight: 800; font-size: 1rem; }
+        .checkout-btn { background: #25D366; width: 100%; border: none; padding: 0.7rem; border-radius: 60px; color: white; font-weight: bold; margin-top: 0.6rem; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+        .cart-form-section { padding: 0.6rem 0.8rem; display: none; background: #fef8f2; }
+        input, textarea { width: 100%; margin-bottom: 8px; padding: 8px 12px; border-radius: 24px; border: 1px solid #f6d5bd; background: white; font-size: 0.85rem; }
+        .payment-info { font-size: 0.7rem; color: #7f6b5a; background: #fff0e6; padding: 4px 10px; border-radius: 40px; display: inline-block; margin-top: 5px; }
         
         .cart-item-rasa-manual {
-            margin: 8px 0 4px;
+            margin: 6px 0 4px;
         }
         .cart-item-rasa-manual input {
             width: 100%;
-            padding: 6px 10px;
+            padding: 5px 8px;
             border-radius: 30px;
             border: 1px solid #ffd8c2;
             background: #fffbf5;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             margin-top: 4px;
         }
-        .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 300; display: flex; flex-direction: column; gap: 8px; }
-        .toast { background: var(--primary-dark); color: white; padding: 10px 20px; border-radius: 60px; animation: slideIn 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 300; display: flex; flex-direction: column; gap: 6px; }
+        .toast { background: var(--primary-dark); color: white; padding: 8px 16px; border-radius: 60px; font-size: 0.8rem; animation: slideIn 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
         @keyframes fadeIn { from { opacity:0; transform: translateY(6px);} to { opacity:1; transform: translateY(0);} }
+        
+        .close-cart {
+            background: none; 
+            border: none; 
+            font-size: 1.6rem; 
+            color: white; 
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -503,7 +584,7 @@
 <div id="cartWrapper">
     <div class="cart-overlay" onclick="toggleCart()"></div>
     <div class="cart-sidebar">
-        <div class="cart-header"><h2>🛍️ Keranjang Pesanan</h2><button class="close-cart" onclick="toggleCart()" style="background:none; border:none; font-size:1.8rem; color:white; cursor:pointer;">&times;</button></div>
+        <div class="cart-header"><h2>🛍️ Keranjang Pesanan</h2><button class="close-cart" onclick="toggleCart()">&times;</button></div>
         <div class="cart-items" id="cartItems"></div>
         <div class="cart-form-section" id="cartFormSection">
             <input type="text" id="nameCart" placeholder="Nama Pemesan">
@@ -612,14 +693,14 @@
                         <span class="product-category">${p.category}</span>
                         <div class="product-title">${p.name}</div>
                         <div class="product-price">${formatRupiah(p.price)}</div>
-                        <button class="add-to-cart-btn" onclick="addToCart(${p.id})"><i class="fas fa-plus"></i> Tambah ke Keranjang</button>
+                        <button class="add-to-cart-btn" onclick="addToCart(${p.id})"><i class="fas fa-plus"></i> Tambah</button>
                     </div>
                 </div>
             `).join('');
         }
         const paginationDiv = document.getElementById('paginationWrapper');
         if(productsArray.length <= ITEMS_PER_PAGE) { paginationDiv.innerHTML = ''; return; }
-        let btns = `<span style="background:#fff0e6; padding:0.2rem 1rem; border-radius:30px;">Hal ${currentPage}/${totalPages}</span>`;
+        let btns = `<span style="background:#fff0e6; padding:0.2rem 0.8rem; border-radius:30px; font-size:0.8rem;">Hal ${currentPage}/${totalPages}</span>`;
         for(let i=1;i<=totalPages;i++) btns += `<button class="page-btn ${i===currentPage?'active-page':''}" onclick="goToPage(${i})">${i}</button>`;
         paginationDiv.innerHTML = btns;
     }
@@ -660,24 +741,24 @@
         document.getElementById('cartTotal').innerText = formatRupiah(totalPrice);
         let formSec = document.getElementById('cartFormSection');
         if(cart.length===0){
-            container.innerHTML = `<div style="text-align:center; padding:2rem;"><i class="fas fa-basket-shopping"></i><p>Keranjang kosong</p><p style="font-size:0.8rem;">Yuk mulai pesan!</p></div>`;
+            container.innerHTML = `<div style="text-align:center; padding:1.5rem;"><i class="fas fa-basket-shopping"></i><p>Keranjang kosong</p><p style="font-size:0.7rem;">Yuk mulai pesan!</p></div>`;
             formSec.style.display = 'none';
         } else {
             formSec.style.display = 'block';
             container.innerHTML = cart.map(item => `
-                <div style="display:flex; gap:12px; margin-bottom:20px; border-bottom:1px solid #ffe0cc; padding-bottom:12px;">
-                    <img src="${item.image}" style="width:60px; height:60px; border-radius:20px; object-fit:cover;">
+                <div style="display:flex; gap:10px; margin-bottom:15px; border-bottom:1px solid #ffe0cc; padding-bottom:10px;">
+                    <img src="${item.image}" style="width:50px; height:50px; border-radius:16px; object-fit:cover;">
                     <div style="flex:1">
-                        <strong>${item.name}</strong>
-                        <div>${formatRupiah(item.price)}</div>
+                        <strong style="font-size:0.85rem;">${item.name}</strong>
+                        <div style="font-size:0.8rem;">${formatRupiah(item.price)}</div>
                         <div class="cart-item-rasa-manual">
-                            <label style="font-size:0.7rem; color:#b45f2a;"><i class="fas fa-pen-alt"></i> Catatan Rasa (tulis bebas):</label>
-                            <input type="text" class="rasa-manual-input" data-id="${item.id}" value="${escapeHtml(item.manualRasa)}" placeholder="Contoh: Coklat lumer, keju, kacang medan, dll">
+                            <label style="font-size:0.65rem; color:#b45f2a;"><i class="fas fa-pen-alt"></i> Catatan Rasa:</label>
+                            <input type="text" class="rasa-manual-input" data-id="${item.id}" value="${escapeHtml(item.manualRasa)}" placeholder="Contoh: Coklat lumer">
                         </div>
-                        <div style="display:flex; gap:8px; margin-top:8px;">
-                            <button class="qty-btn" style="width:30px; border-radius:40px; border:1px solid #ddd; background:white; cursor:pointer;" onclick="updateCartQty(${item.id}, -1)">-</button>
-                            <span>${item.qty}</span>
-                            <button class="qty-btn" style="width:30px; border-radius:40px; border:1px solid #ddd; background:white; cursor:pointer;" onclick="updateCartQty(${item.id}, 1)">+</button>
+                        <div style="display:flex; gap:8px; margin-top:6px;">
+                            <button class="qty-btn" style="width:26px; border-radius:40px; border:1px solid #ddd; background:white; cursor:pointer;" onclick="updateCartQty(${item.id}, -1)">-</button>
+                            <span style="font-size:0.85rem;">${item.qty}</span>
+                            <button class="qty-btn" style="width:26px; border-radius:40px; border:1px solid #ddd; background:white; cursor:pointer;" onclick="updateCartQty(${item.id}, 1)">+</button>
                             <button style="background:none; border:none; color:#e67e22; cursor:pointer;" onclick="removeFromCart(${item.id})"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
@@ -739,21 +820,21 @@
             <div class="sub-title">Setiap rasa bisa dipesan dengan menulis catatan di keranjang.</div>
             <div class="tabel-rasa">
                 <div class="tabel-header"><i class="fas fa-candy-cane"></i> 🥞 Rasa Martabak Manis</div>
-                <table>
+                 <table>
                     <thead><tr><th>Rasa</th><th>Deskripsi</th><th>Harga</th></tr></thead>
                     <tbody>
                         ${rasaMartabakManis.map(r => `<tr><td><strong>${r.nama}</strong></td><td>${r.deskripsi}</td><td><span class="harga-badge">${formatRupiah(r.harga)}</span></td></tr>`).join('')}
                     </tbody>
-                </table>
+                 </table>
             </div>
             <div class="tabel-rasa">
                 <div class="tabel-header"><i class="fas fa-bread-slice"></i> 🍞 Rasa Roti Bakar</div>
-                <table>
+                 <table>
                     <thead><tr><th>Rasa</th><th>Deskripsi</th><th>Harga</th></tr></thead>
                     <tbody>
                         ${rasaRotiBakar.map(r => `<tr><td><strong>${r.nama}</strong></td><td>${r.deskripsi}</td><td><span class="harga-badge">${formatRupiah(r.harga)}</span></td></tr>`).join('')}
                     </tbody>
-                </table>
+                 </table>
             </div>
             <div class="info-tambahan"><i class="fas fa-edit"></i> Kamu bisa menuliskan rasa favoritmu di kolom "Catatan Rasa" pada halaman keranjang.</div>
         </div>`;
